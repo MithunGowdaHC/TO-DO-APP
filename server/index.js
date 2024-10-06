@@ -1,15 +1,26 @@
-// Jai Sri Ram;
+require("dotenv").config();
+const express = require("express");
+const { connectToMongoDB } = require("./database");
+const path = require("path");
 
-const express =  require("express")
+const app = express();
+app.use(express.json());
 
-const app = express()
-
-const PORT = 4000;
-
-app.get("/hello", (req, res) => {
-    res.status(200).json({msg:" Hello Mithun !" })
+app.use(express.static(path.join(__dirname, "build")));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "build/index.html"));
 })
 
-app.listen(PORT, ()=>{
-    console.log(`Your server is running at http://localhost:${PORT}`)
-})
+
+const router = require("./routes");
+app.use("/api", router);
+
+const port = process.env.PORT || 5000;
+
+async function startServer() {
+    await connectToMongoDB();
+    app.listen(port, () => {
+        console.log(`Server is listening on http://localhost:${port}`);
+    });
+}
+startServer();

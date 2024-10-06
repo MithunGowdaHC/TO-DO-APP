@@ -17,4 +17,14 @@ In server
 
 Open client folder
     npx create-react-app. 
-    
+    set according to your requirement
+
+//come back to server
+
+create routes.js
+
+create routes
+        GET
+        POST
+        DELETE
+        PUT 
